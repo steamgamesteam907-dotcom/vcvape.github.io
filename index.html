@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ZAPP Mini App — Тапай и зарабатывай</title>
+    <title>ZAPP — Тапай и зарабатывай</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,9 +14,8 @@
         }
 
         body {
-            background: #0A0C12;
+            background: #120B1E;
             font-family: 'Inter', sans-serif;
-            color: #FFFFFF;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,20 +26,18 @@
             max-width: 450px;
             width: 100%;
             height: 100vh;
-            background: #0F111A;
+            background: radial-gradient(circle at top left, #1E102F, #0B0516);
             border-radius: 32px;
             overflow-y: auto;
             overflow-x: hidden;
             position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(156, 70, 255, 0.2);
             scrollbar-width: thin;
         }
 
-        .app-container::-webkit-scrollbar {
-            width: 4px;
-        }
-        .app-container::-webkit-scrollbar-track { background: #1E1F2A; }
-        .app-container::-webkit-scrollbar-thumb { background: #3A3C4A; border-radius: 8px; }
+        .app-container::-webkit-scrollbar { width: 4px; }
+        .app-container::-webkit-scrollbar-track { background: #2A1A3A; }
+        .app-container::-webkit-scrollbar-thumb { background: #9C46FF; border-radius: 8px; }
 
         .page {
             padding: 20px 16px 80px 16px;
@@ -55,28 +52,34 @@
         .logo {
             font-size: 28px;
             font-weight: 800;
-            background: linear-gradient(135deg, #F5B042, #FFD966);
+            background: linear-gradient(135deg, #D29BFF, #A855F7);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 0 0 8px rgba(168,85,247,0.3);
         }
         .manager-name {
             font-size: 14px;
             font-weight: 500;
-            background: #1E1F2E;
+            background: rgba(128, 90, 190, 0.25);
+            backdrop-filter: blur(4px);
             padding: 6px 12px;
             border-radius: 40px;
-            color: #C8CCE8;
+            color: #E2D1FF;
+            border: 0.5px solid rgba(168,85,247,0.4);
         }
 
         .balance-section {
-            background: linear-gradient(135deg, #1E202F, #14161F);
+            background: rgba(32, 18, 48, 0.7);
+            backdrop-filter: blur(12px);
             border-radius: 28px;
             padding: 16px 20px;
             margin-bottom: 24px;
             text-align: center;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
-        .balance-label { font-size: 14px; color: #9CA3CF; letter-spacing: 1px; }
+        .balance-label { font-size: 14px; color: #C9B3FF; letter-spacing: 1px; }
         .balance-value {
             font-size: 48px;
             font-weight: 800;
@@ -85,22 +88,23 @@
             justify-content: center;
             gap: 8px;
             margin-top: 4px;
+            color: #F3E6FF;
         }
-        .coin-icon { font-size: 40px; }
+        .coin-icon { font-size: 40px; filter: drop-shadow(0 0 6px #FFD966); }
 
-        /* инвайт блок */
         .invite-card {
-            background: #181C28;
+            background: rgba(26, 16, 42, 0.6);
+            backdrop-filter: blur(8px);
             border-radius: 28px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid #2A2E3E;
+            border: 1px solid #6B3ACF;
         }
-        .invite-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-        .invite-sub { font-size: 13px; color: #9CA3CF; margin-bottom: 16px; }
+        .invite-title { font-size: 18px; font-weight: 700; color: #E9D5FF; }
+        .invite-sub { font-size: 13px; color: #B89BFF; margin-bottom: 16px; }
         .link-row {
             display: flex;
-            background: #0F1119;
+            background: #0F0A1A;
             border-radius: 60px;
             padding: 4px 4px 4px 16px;
             align-items: center;
@@ -109,7 +113,7 @@
         }
         .link-url { font-size: 14px; color: #FFD966; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
         .copy-btn {
-            background: #2E3A5C;
+            background: #4B2C7A;
             border: none;
             padding: 8px 16px;
             border-radius: 40px;
@@ -117,40 +121,43 @@
             font-size: 14px;
             color: white;
             cursor: pointer;
+            transition: 0.1s;
         }
-        .copy-btn:active { background: #3F4E78; transform: scale(0.96); }
+        .copy-btn:active { background: #6B46B0; transform: scale(0.96); }
         .share-btn {
-            background: linear-gradient(95deg, #F5B042, #FFA826);
+            background: linear-gradient(95deg, #A855F7, #7E3AFF);
             width: 100%;
             border: none;
             padding: 14px;
             border-radius: 60px;
             font-weight: 700;
             font-size: 16px;
-            color: #0A0C12;
+            color: white;
             margin-bottom: 20px;
             cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 0 4px 12px rgba(168,85,247,0.3);
         }
         .share-btn:active { opacity: 0.8; transform: scale(0.97); }
         .stats-row {
             display: flex;
             justify-content: space-between;
-            background: #10131E;
+            background: #100C1C;
             padding: 16px;
             border-radius: 24px;
         }
         .stat-item { text-align: center; flex: 1; }
-        .stat-value { font-size: 26px; font-weight: 800; color: #FFD966; }
-        .stat-label { font-size: 12px; color: #8F96B5; }
+        .stat-value { font-size: 26px; font-weight: 800; color: #D9A7FF; }
+        .stat-label { font-size: 12px; color: #AA8CD4; }
 
-        /* магазин */
         .search-bar {
-            background: #1A1D2B;
+            background: rgba(32, 22, 50, 0.8);
             border-radius: 60px;
             padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
+            border: 0.5px solid #6B3ACF;
         }
         .search-input {
             background: transparent;
@@ -160,35 +167,37 @@
             width: 70%;
             outline: none;
         }
-        .search-input::placeholder { color: #5F657F; }
+        .search-input::placeholder { color: #9A7BCB; }
         .filter-tabs { display: flex; gap: 12px; }
         .filter {
-            background: #262A3A;
+            background: #2F2048;
             padding: 6px 14px;
             border-radius: 40px;
             font-size: 14px;
             font-weight: 500;
-            color: #B9C1E6;
+            color: #CFB5FF;
             cursor: pointer;
+            transition: 0.1s;
         }
-        .filter.active { background: #F5B042; color: #0A0C12; }
+        .filter.active { background: #A855F7; color: #0A0C12; }
         .products-grid { display: flex; flex-direction: column; gap: 16px; }
         .product-card {
-            background: #151A26;
+            background: rgba(27, 18, 45, 0.7);
+            backdrop-filter: blur(4px);
             border-radius: 24px;
             padding: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #232838;
+            border: 1px solid #7B4DDB;
         }
         .product-info { display: flex; flex-direction: column; gap: 6px; }
-        .product-brand { font-size: 12px; color: #F5B042; font-weight: 600; }
-        .product-name { font-size: 18px; font-weight: 700; }
-        .product-desc { font-size: 13px; color: #A7AFCB; }
-        .product-price { font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 4px; }
+        .product-brand { font-size: 12px; color: #E2B8FF; font-weight: 600; }
+        .product-name { font-size: 18px; font-weight: 700; color: #F6EFFF; }
+        .product-desc { font-size: 13px; color: #BFAEE6; }
+        .product-price { font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 4px; color: #FFDE9C; }
         .add-btn {
-            background: #2A2F42;
+            background: #382B58;
             width: 44px;
             height: 44px;
             border-radius: 40px;
@@ -197,62 +206,63 @@
             justify-content: center;
             font-size: 24px;
             font-weight: 700;
-            color: #FFD966;
+            color: #E6C3FF;
             cursor: pointer;
+            transition: 0.08s linear;
         }
-        .add-btn:active { background: #3E4562; transform: scale(0.96); }
+        .add-btn:active { background: #5D3F9E; transform: scale(0.92); }
 
-        /* ПРОФИЛЬ — тапалка */
         .profile-avatar {
             display: flex;
             justify-content: center;
             margin: 16px 0 12px;
             cursor: pointer;
-            transition: 0.1s;
+            position: relative;
         }
-        .avatar-circle {
+        .avatar-img {
             width: 130px;
             height: 130px;
-            background: linear-gradient(145deg, #2C2F42, #1A1D2A);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid #F5B042;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="45" r="20" fill="%23E5B85B"/><circle cx="35" cy="40" r="2.5" fill="white"/><circle cx="65" cy="40" r="2.5" fill="white"/><path d="M40 60 Q50 70 60 60" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="44" y="25" width="12" height="12" fill="%23F5B042" rx="2"/><path d="M50 15 L55 25 L45 25 Z" fill="%23F5B042"/></svg>');
-            background-size: 80%;
-            background-position: center 55%;
-            background-repeat: no-repeat;
-            background-color: #202433;
+            object-fit: cover;
+            border: 3px solid #B47CFF;
+            box-shadow: 0 0 20px rgba(168,85,247,0.6);
             transition: 0.07s linear;
+            background: #392E62;
         }
-        .avatar-circle:active { transform: scale(0.96); }
+        .avatar-img:active { transform: scale(0.96); }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(180, 124, 255, 0.6);
+            transform: scale(0);
+            animation: rippleAnim 0.5s linear;
+            pointer-events: none;
+        }
+        @keyframes rippleAnim {
+            to { transform: scale(3); opacity: 0; }
+        }
 
-        .tap-power {
-            text-align: center;
-            margin: 16px 0 12px;
-        }
-        .tap-label { font-size: 15px; color: #ADB4D6; letter-spacing: 1px; }
+        .tap-power { text-align: center; margin: 16px 0 12px; }
+        .tap-label { font-size: 15px; color: #CBB5FF; letter-spacing: 1px; }
         .tap-amount {
             font-size: 44px;
             font-weight: 800;
-            background: linear-gradient(135deg, #F5B042, #FFE082);
+            background: linear-gradient(135deg, #F5E0FF, #E0B0FF);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         .progress-container {
-            background: #1E212F;
+            background: #251D3A;
             border-radius: 60px;
             height: 12px;
             margin: 20px 0 12px;
             overflow: hidden;
         }
         .progress-fill {
-            width: 99.92%;
+            width: 81%;
             height: 100%;
-            background: linear-gradient(90deg, #F5B042, #FFCF7A);
+            background: linear-gradient(90deg, #B76EFF, #DDA0FF);
             border-radius: 60px;
             transition: width 0.2s ease;
         }
@@ -261,10 +271,10 @@
             justify-content: space-between;
             font-size: 14px;
             margin-bottom: 24px;
-            color: #9BA1C2;
+            color: #C3ADE6;
         }
         .boost-block {
-            background: #1A1E2C;
+            background: #2B1F48;
             border-radius: 20px;
             padding: 16px;
             text-align: center;
@@ -275,32 +285,28 @@
             align-items: center;
             margin-top: 10px;
             cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid #9B6DFF;
         }
-        .boost-block:active { background: #2D3348; }
-        .timer-block {
-            background: #0F121C;
-            padding: 14px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-weight: 500;
+        .boost-block.disabled {
+            opacity: 0.6;
+            pointer-events: none;
         }
-        /* всплывающие монетки при тапе */
+        .boost-block:active { background: #3E2D64; transform: scale(0.98); }
+
         .floating-number {
             position: fixed;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 800;
-            color: #FFD966;
-            text-shadow: 0 0 5px #F5B042;
+            color: #FFE484;
+            text-shadow: 0 0 8px #C96EFF;
             pointer-events: none;
             z-index: 200;
             animation: floatUp 0.6s ease-out forwards;
         }
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0px) scale(1); }
-            100% { opacity: 0; transform: translateY(-60px) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-80px) scale(1.2); }
         }
 
         .bottom-nav {
@@ -310,12 +316,12 @@
             transform: translateX(-50%);
             max-width: 450px;
             width: 100%;
-            background: #0B0E17;
+            background: rgba(14, 7, 27, 0.85);
             backdrop-filter: blur(20px);
             display: flex;
             justify-content: space-around;
             padding: 12px 16px 20px;
-            border-top: 1px solid #23273A;
+            border-top: 1px solid #6C44BB;
             border-radius: 28px 28px 0 0;
         }
         .nav-item {
@@ -324,11 +330,12 @@
             align-items: center;
             gap: 4px;
             font-size: 12px;
-            color: #5F658A;
+            color: #8A74B5;
             cursor: pointer;
             font-weight: 500;
+            transition: 0.1s;
         }
-        .nav-item.active { color: #F5B042; }
+        .nav-item.active { color: #D9A7FF; text-shadow: 0 0 5px #A855F7; }
         .nav-icon { font-size: 22px; }
         .placeholder-page {
             display: flex;
@@ -337,7 +344,7 @@
             height: 60vh;
             flex-direction: column;
             gap: 16px;
-            color: #7D82A3;
+            color: #BDA6F0;
             font-size: 18px;
         }
         .hide { display: none; }
@@ -346,13 +353,15 @@
             bottom: 90px;
             left: 20px;
             right: 20px;
-            background: #2C2F42;
-            color: #FFE5B4;
+            background: #2A1E50;
+            color: #F3E5FF;
             text-align: center;
             padding: 12px;
             border-radius: 60px;
             font-size: 14px;
             z-index: 200;
+            backdrop-filter: blur(12px);
+            border: 1px solid #B376FF;
         }
     </style>
 </head>
@@ -392,9 +401,9 @@
             <div class="filter-tabs"><span class="filter active">Все</span><span class="filter">Товары</span></div>
         </div>
         <div class="products-grid">
-            <div class="product-card"><div class="product-info"><div class="product-brand">Шайба</div><div class="product-name">СНЮС ZAPP</div><div class="product-desc">Cold Dry</div></div><div style="display:flex; align-items:center; gap:12px;"><div class="product-price">$ 8 000</div><div class="add-btn" data-product="Cold Dry">+</div></div></div>
-            <div class="product-card"><div class="product-info"><div class="product-brand">Шайба</div><div class="product-name">СНЮС ZAPP</div><div class="product-desc">Cool Mint</div></div><div style="display:flex; align-items:center; gap:12px;"><div class="product-price">$ 8 000</div><div class="add-btn" data-product="Cool Mint">+</div></div></div>
-            <div class="product-card"><div class="product-info"><div class="product-brand">Шайба</div><div class="product-name">СНЮС ZAPP</div><div class="product-desc">Citrus Frost</div></div><div style="display:flex; align-items:center; gap:12px;"><div class="product-price">$ 8 000</div><div class="add-btn" data-product="Citrus Frost">+</div></div></div>
+            <div class="product-card" data-price="8000"><div class="product-info"><div class="product-brand">Шайба</div><div class="product-name">СНЮС ZAPP</div><div class="product-desc">Cold Dry</div></div><div style="display:flex; align-items:center; gap:12px;"><div class="product-price">$ 8 000</div><div class="add-btn" data-product="Cold Dry">+</div></div></div>
+            <div class="product-card" data-price="8000"><div class="product-info"><div class="product-brand">Шайба</div><div class="product-name">СНЮС ZAPP</div><div class="product-desc">Cool Mint</div></div><div style="display:flex; align-items:center; gap:12px;"><div class="product-price">$ 8 000</div><div class="add-btn" data-product="Cool Mint">+</div></div></div>
+            <div class="product-card" data-price="8000"><div class="product-info"><div class="product-brand">Шайба</div><div class="product-name">СНЮС ZAPP</div><div class="product-desc">Citrus Frost</div></div><div style="display:flex; align-items:center; gap:12px;"><div class="product-price">$ 8 000</div><div class="add-btn" data-product="Citrus Frost">+</div></div></div>
         </div>
     </div>
 
@@ -404,25 +413,25 @@
     <div id="profilePage" class="page hide">
         <div class="top-bar"><div class="logo">ZAPP</div><div class="manager-name">Менеджер Никита</div></div>
         <div class="profile-avatar" id="tapArea">
-            <div class="avatar-circle" id="avatarTap"></div>
+            <img src="bot.jpg" alt="avatar" class="avatar-img" id="userAvatar" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle fill=\'%236B3ACF\' cx=\'50\' cy=\'50\' r=\'50\'/%3E%3Ctext x=\'50\' y=\'67\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\'%3E👤%3C/text%3E%3C/svg%3E'">
         </div>
         <div class="tap-power">
             <div class="tap-label">Сила тапа</div>
             <div class="tap-amount" id="profileBalance">$ 2 312</div>
         </div>
         <div class="progress-container">
-            <div class="progress-fill" id="energyFill" style="width: 99.92%"></div>
+            <div class="progress-fill" id="energyFill"></div>
         </div>
         <div class="stats-mini">
-            <span id="energyCounter">2498 / 2500</span>
-            <span>⚡ Восстановление: <span id="recoveryTimer">39:28</span></span>
+            <span id="energyCounter">2032 / 2500</span>
+            <span>⚡ Восстановление: <span id="recoveryTimer">0:00</span></span>
         </div>
         <div class="boost-block" id="boostButton">
-            <span>🚀 Boost</span>
-            <span id="boostTimerLabel">20h 16m</span>
+            <span>🚀 Boost +50</span>
+            <span id="boostTimerLabel">24h</span>
         </div>
-        <div style="margin-top: 24px; background: #141824; border-radius: 24px; padding: 12px; text-align: center; font-size: 13px; color:#8A8FB3;">
-            👆 Тапай по аватарке ➕ зарабатывай монеты! Энергия тратится и восстанавливается.
+        <div style="margin-top: 24px; background: #1E1338; border-radius: 24px; padding: 12px; text-align: center; font-size: 13px; color:#C8B0FF;">
+            👆 Тапай по аватарке ➕ зарабатывай монеты! Энергия тратится и восстанавливается каждые 5 сек. Буст раз в 24 часа.
         </div>
     </div>
 
@@ -436,57 +445,72 @@
 </div>
 
 <script>
-    // ----- ИГРОВАЯ ЛОГИКА: ТАПЫ, ЭНЕРГИЯ, ВОССТАНОВЛЕНИЕ -----
+    // ----- ИГРОВАЯ МЕХАНИКА -----
     const MAX_ENERGY = 2500;
-    let currentEnergy = 2498;      // начальное с скрина 2498/2500
-    let balance = 2312;            // монеты / сила тапа
-    let recoveryInterval = null;
-    let nextRecoverySeconds = 0;    // время до следующего восстановления (сек)
-    let recoveryTimerInterval = null;
+    let currentEnergy = 2032;      // осталось до полного: 39 минут при 1ед/5сек
+    let balance = 2312;
+    
+    // Буст: ключ в localStorage, 24 часа
+    const BOOST_KEY = 'zapp_last_boost';
+    let boostCooldownSeconds = 0;
+    let boostInterval = null;
 
-    // DOM-элементы
+    // DOM элементы
     const mainBalanceSpan = document.getElementById('mainBalance');
     const profileBalanceSpan = document.getElementById('profileBalance');
     const energyCounterSpan = document.getElementById('energyCounter');
     const energyFillDiv = document.getElementById('energyFill');
     const recoveryTimerSpan = document.getElementById('recoveryTimer');
+    const boostButton = document.getElementById('boostButton');
+    const boostTimerLabel = document.getElementById('boostTimerLabel');
 
-    // Функция обновления UI (баланс, энергия, прогресс)
     function updateUI() {
-        const formattedBalance = balance.toLocaleString();
-        if (mainBalanceSpan) mainBalanceSpan.innerText = formattedBalance;
-        if (profileBalanceSpan) profileBalanceSpan.innerText = `$ ${formattedBalance}`;
+        const formatted = balance.toLocaleString();
+        if (mainBalanceSpan) mainBalanceSpan.innerText = formatted;
+        if (profileBalanceSpan) profileBalanceSpan.innerText = `$ ${formatted}`;
         
         if (energyCounterSpan) energyCounterSpan.innerText = `${currentEnergy} / ${MAX_ENERGY}`;
         if (energyFillDiv) {
             const percent = (currentEnergy / MAX_ENERGY) * 100;
             energyFillDiv.style.width = `${percent}%`;
         }
-        // дополнительно показываем баланс на главной еще раз
     }
 
-    // Показать всплывающее число (+1 монета)
-    function showFloatingNumber(x, y, value) {
-        const div = document.createElement('div');
-        div.className = 'floating-number';
-        div.innerText = `+${value}`;
-        div.style.left = `${x - 20}px`;
-        div.style.top = `${y - 30}px`;
-        document.body.appendChild(div);
-        setTimeout(() => div.remove(), 600);
+    // Отображение времени восстановления энергии
+    function updateRecoveryTimerDisplay() {
+        if (!recoveryTimerSpan) return;
+        const missing = MAX_ENERGY - currentEnergy;
+        if (missing <= 0) {
+            recoveryTimerSpan.innerText = "0:00";
+            return;
+        }
+        const totalSeconds = missing * 5;
+        const mins = Math.floor(totalSeconds / 60);
+        const secs = totalSeconds % 60;
+        recoveryTimerSpan.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
+
+    // Восстановление энергии (1 ед. каждые 5 сек)
+    let energyInterval = setInterval(() => {
+        if (currentEnergy < MAX_ENERGY) {
+            currentEnergy++;
+            updateUI();
+            updateRecoveryTimerDisplay();
+        } else {
+            updateRecoveryTimerDisplay();
+        }
+    }, 5000);
 
     // Тап по аватарке
     function handleTap(event) {
         if (currentEnergy <= 0) {
-            showToast("⛔ Нет энергии! Подождите восстановления.");
+            showToast("❌ Нет энергии! Ждите восстановления.");
             return;
         }
-        // Снимаем 1 энергию, добавляем монету (за каждый тап 1 монета)
         currentEnergy--;
         balance++;
         
-        // Визуальный фидбек
+        // Визуальные эффекты
         let clientX, clientY;
         if (event.touches) {
             clientX = event.touches[0].clientX;
@@ -497,75 +521,136 @@
         }
         showFloatingNumber(clientX, clientY, 1);
         
-        updateUI();
+        const avatar = document.querySelector('.avatar-img');
+        if (avatar) {
+            const rect = avatar.getBoundingClientRect();
+            const rippleDiv = document.createElement('div');
+            rippleDiv.classList.add('ripple');
+            rippleDiv.style.left = rect.left + rect.width/2 - 20 + 'px';
+            rippleDiv.style.top = rect.top + rect.height/2 - 20 + 'px';
+            rippleDiv.style.width = '40px';
+            rippleDiv.style.height = '40px';
+            document.body.appendChild(rippleDiv);
+            setTimeout(() => rippleDiv.remove(), 500);
+        }
         
-        // Если энергия была 0 и стала 1 (но тут уменьшение), но после тапа проверяем перезапуск восстановления
-        restartRecoveryTimer();
-    }
-
-    // Пересчет времени полного восстановления (до 2500) и отображение в формате мин:сек
-    function updateRecoveryDisplay() {
-        if (!recoveryTimerSpan) return;
-        const missing = MAX_ENERGY - currentEnergy;
-        if (missing <= 0) {
-            recoveryTimerSpan.innerText = "0:00";
-            return;
-        }
-        // Скорость восстановления: 1 единица каждые 10 секунд (реалистично для игры)
-        const secondsPerEnergy = 10;
-        let totalSeconds = missing * secondsPerEnergy;
-        const mins = Math.floor(totalSeconds / 60);
-        const secs = totalSeconds % 60;
-        recoveryTimerSpan.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    }
-
-    // Восстановить 1 энергию (вызывается по интервалу)
-    function restoreOneEnergy() {
-        if (currentEnergy < MAX_ENERGY) {
-            currentEnergy++;
-            updateUI();
-            updateRecoveryDisplay();
-            // если энергия стала максимальной, можно остановить частые проверки, но оставим интервал
-            if (currentEnergy === MAX_ENERGY) {
-                // ничего не останавливаем, просто таймер будет показывать 0:00
-            }
-        } else {
-            updateRecoveryDisplay();
-        }
-    }
-
-    // Запуск/перезапуск интервала восстановления (каждые 10 сек)
-    let energyRestoreInterval = null;
-    function startEnergyRestore() {
-        if (energyRestoreInterval) clearInterval(energyRestoreInterval);
-        energyRestoreInterval = setInterval(() => {
-            if (currentEnergy < MAX_ENERGY) {
-                restoreOneEnergy();
-            }
-            // всегда обновляем отображение восстановления
-            updateRecoveryDisplay();
-        }, 10000); // каждые 10 секунд +1 энергия
-    }
-
-    function restartRecoveryTimer() {
-        updateRecoveryDisplay();
-        // интервал уже работает
-    }
-
-    // Буст — мгновенно восстанавливаем 50 ед. энергии (или до макс)
-    function useBoost() {
-        if (currentEnergy === MAX_ENERGY) {
-            showToast("⚡ Энергия уже полная!");
-            return;
-        }
-        let restored = Math.min(50, MAX_ENERGY - currentEnergy);
-        currentEnergy += restored;
         updateUI();
-        updateRecoveryDisplay();
-        showToast(`🚀 Буст +${restored} энергии!`);
+        updateRecoveryTimerDisplay();
+        updateBoostUI(); // обновим, но не обязательно
     }
 
-    // -------------------  НАВИГАЦИЯ  -------------------
+    function showFloatingNumber(x, y, value) {
+        const div = document.createElement('div');
+        div.className = 'floating-number';
+        div.innerText = `+${value}`;
+        div.style.left = `${x - 20}px`;
+        div.style.top = `${y - 30}px`;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 600);
+    }
+
+    // Покупка товара
+    function buyProduct(price, productName) {
+        if (balance >= price) {
+            balance -= price;
+            updateUI();
+            showToast(`✅ Куплен ${productName}! -${price} монет`);
+        } else {
+            showToast(`⛔ Недостаточно монет! Нужно ${price}, у вас ${balance}`);
+        }
+    }
+
+    // --- Логика буста с 24-часовым кулдауном ---
+    function getLastBoostTime() {
+        const stored = localStorage.getItem(BOOST_KEY);
+        return stored ? parseInt(stored) : 0;
+    }
+
+    function setLastBoostTime() {
+        localStorage.setItem(BOOST_KEY, Date.now());
+    }
+
+    function isBoostAvailable() {
+        const last = getLastBoostTime();
+        if (last === 0) return true;
+        const diff = Date.now() - last;
+        return diff >= 86400000; // 24 часа
+    }
+
+    function getBoostRemainingSeconds() {
+        const last = getLastBoostTime();
+        if (last === 0) return 0;
+        const elapsed = Date.now() - last;
+        if (elapsed >= 86400000) return 0;
+        return Math.floor((86400000 - elapsed) / 1000);
+    }
+
+    // Активация буста
+    function activateBoost() {
+        if (!isBoostAvailable()) {
+            const remaining = getBoostRemainingSeconds();
+            showToast(`⏳ Буст доступен через ${formatTime(remaining)}`);
+            return false;
+        }
+        if (currentEnergy === MAX_ENERGY) {
+            showToast("⚡ Энергия уже максимальная!");
+            return false;
+        }
+        let newEnergy = Math.min(currentEnergy + 50, MAX_ENERGY);
+        let restored = newEnergy - currentEnergy;
+        currentEnergy = newEnergy;
+        updateUI();
+        updateRecoveryTimerDisplay();
+        setLastBoostTime();
+        showToast(`🚀 Буст активирован! +${restored} энергии. Следующий буст через 24 часа.`);
+        updateBoostUI();
+        return true;
+    }
+
+    function formatTime(seconds) {
+        if (seconds <= 0) return "доступно";
+        const days = Math.floor(seconds / 86400);
+        const hours = Math.floor((seconds % 86400) / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        if (days > 0) return `${days}д ${hours}ч`;
+        if (hours > 0) return `${hours}ч ${mins}м`;
+        if (mins > 0) return `${mins}м ${secs}с`;
+        return `${secs}с`;
+    }
+
+    function updateBoostUI() {
+        if (!boostButton || !boostTimerLabel) return;
+        if (isBoostAvailable()) {
+            boostButton.classList.remove('disabled');
+            boostTimerLabel.innerText = "Готов!";
+        } else {
+            boostButton.classList.add('disabled');
+            const remaining = getBoostRemainingSeconds();
+            boostTimerLabel.innerText = formatTime(remaining);
+        }
+    }
+
+    // Запускаем отдельный интервал для обновления таймера буста каждую секунду
+    function startBoostTimer() {
+        if (boostInterval) clearInterval(boostInterval);
+        boostInterval = setInterval(() => {
+            updateBoostUI();
+        }, 1000);
+    }
+
+    // --- Общие утилиты ---
+    function showToast(msg) {
+        let existing = document.querySelector('.toast-msg');
+        if(existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.innerText = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+
+    // --- Навигация ---
     const homePage = document.getElementById('homePage');
     const shopPage = document.getElementById('shopPage');
     const casinoPage = document.getElementById('casinoPage');
@@ -603,76 +688,59 @@
         item.addEventListener('click', () => setActivePage(item.getAttribute('data-page')));
     });
 
-    // Копирование ссылки + тост
-    const copyBtn = document.getElementById('copyLinkBtn');
-    const shareBtn = document.getElementById('shareBtn');
-    const inviteLinkSpan = document.getElementById('inviteLink');
-    function showToast(msg) {
-        let existing = document.querySelector('.toast-msg');
-        if(existing) existing.remove();
-        const toast = document.createElement('div');
-        toast.className = 'toast-msg';
-        toast.innerText = msg;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
-    }
-    copyBtn?.addEventListener('click', () => {
-        navigator.clipboard.writeText(inviteLinkSpan.innerText);
+    // --- Привязка событий ---
+    document.getElementById('copyLinkBtn')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(document.getElementById('inviteLink').innerText);
         showToast('✅ Ссылка скопирована!');
     });
-    shareBtn?.addEventListener('click', () => {
-        if (navigator.share) navigator.share({title: 'ZAPP', text: 'Зарабатывай монеты!', url: inviteLinkSpan.innerText});
+    document.getElementById('shareBtn')?.addEventListener('click', () => {
+        if (navigator.share) navigator.share({title: 'ZAPP', text: 'Зарабатывай монеты!', url: document.getElementById('inviteLink').innerText});
         else showToast('Скопируй ссылку и отправь другу');
     });
-
-    // Магазин + кнопки
+    
+    // Магазин: кнопки +
     document.querySelectorAll('.add-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const product = btn.getAttribute('data-product') || 'товар';
-            showToast(`➕ ${product} добавлен в корзину (демо)`);
+            const productCard = btn.closest('.product-card');
+            const price = parseInt(productCard?.getAttribute('data-price') || '8000');
+            const productName = btn.getAttribute('data-product') || 'товар';
+            buyProduct(price, productName);
         });
     });
-    // Фильтры
+    
+    // Фильтры (демо)
     document.querySelectorAll('.filter').forEach(f => {
         f.addEventListener('click', function() {
             document.querySelectorAll('.filter').forEach(ft => ft.classList.remove('active'));
             this.classList.add('active');
-            showToast('Фильтр (демо)');
+            showToast('🔍 Фильтр (демо)');
         });
     });
-
-    // --- Тап в профиле ---
+    
+    // Тап в профиле
     const tapArea = document.getElementById('tapArea');
     if (tapArea) {
-        tapArea.addEventListener('click', (e) => {
-            e.preventDefault();
-            handleTap(e);
-        });
-        tapArea.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            handleTap(e);
-        });
+        tapArea.addEventListener('click', (e) => { e.preventDefault(); handleTap(e); });
+        tapArea.addEventListener('touchstart', (e) => { e.preventDefault(); handleTap(e); });
     }
-    // Буст
-    const boostBtn = document.getElementById('boostButton');
-    if (boostBtn) boostBtn.addEventListener('click', () => useBoost());
-
-    // Старт механики
-    startEnergyRestore();
-    updateUI();
-    updateRecoveryDisplay();
-    setActivePage('home');   // стартовая страница - главная
-
-    // Синхронизация баланса при переключении на профайл - уже всегда актуально
-    // Также обновляем отображение таймера раз в секунду (для визуального отсчёта)
-    setInterval(() => {
-        updateRecoveryDisplay();
-    }, 1000);
     
-    // Boost надпись 20h 16m - просто заглушка, можно менять динамически, но оставим статик
-    const boostLabel = document.getElementById('boostTimerLabel');
-    if(boostLabel) boostLabel.innerText = '20h 16m';
+    // Буст кнопка
+    if (boostButton) {
+        boostButton.addEventListener('click', () => activateBoost());
+    }
+    
+    // Запуск таймера буста и инициализация
+    startBoostTimer();
+    updateBoostUI();
+    updateUI();
+    updateRecoveryTimerDisplay();
+    setActivePage('home');
+    
+    // Секундомер для обновления времени восстановления (для UI)
+    setInterval(() => {
+        updateRecoveryTimerDisplay();
+    }, 1000);
 </script>
 </body>
 </html>
