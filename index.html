@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Hamster Tap</title>
+  <style>
+    body {
+      background: #1a1a2e;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .screen { padding: 20px; display: none; }
+    .screen.active { display: block; }
+    .coin { font-size: 2em; margin: 15px 0; }
+    .hamster {
+      width: 200px; height: 200px;
+      background: url('https://i.ibb.co/0jqTpTm/hamster.png') center/contain no-repeat;
+      margin: 0 auto;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: transform 0.05s;
+    }
+    .hamster:active { transform: scale(0.9); }
+    .shop-item {
+      background: #16213e;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 12px;
+      max-width: 300px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    button {
+      background: #e94560;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:disabled { background: gray; }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    nav button { background: #533483; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Экран кликера -->
+    <div id="clicker" class="screen active">
+      <div class="coin">🪙 <span id="balance">0</span></div>
+      <div class="hamster" id="hamsterBtn"></div>
+      <p>Тапай хомяка!</p>
+    </div>
+
+    <!-- Экран магазина -->
+    <div id="shop" class="screen">
+      <h2>Магазин</h2>
+      <div id="shopItems"></div>
+      <button id="orderBtn" disabled>Заказать товар</button>
+      <p id="orderMessage"></p>
+    </div>
+
+    <!-- Навигация -->
+    <nav>
+      <button onclick="showScreen('clicker')">🐹 Тапалка</button>
+      <button onclick="showScreen('shop')">🛒 Магазин</button>
+    </nav>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand(); // разворачиваем на весь экран
+
+    // Состояние (в реальном проекте – на сервере)
+    let coins = parseInt(localStorage.getItem('coins') || '0');
+    let inventory = JSON.parse(localStorage.getItem('inventory') || '[]');
+    const shopItems = [
+      { id: 1, name: '🔥 Буст х2', cost: 100, description: 'Удвой монеты (на сервере)' },
+      { id: 2, name: '🎁 Мерч Хомяк', cost: 500, description: 'Футболка с хомяком' }
+    ];
+
+    // Обновление UI
+    function updateUI() {
+      document.getElementById('balance').textContent = coins;
+      renderShop();
+      saveState();
+    }
+
+    function saveState() {
+      localStorage.setItem('coins', coins);
+      localStorage.setItem('inventory', JSON.stringify(inventory));
+    }
+
+    // Кликер
+    document.getElementById('hamsterBtn').addEventListener('click', () => {
+      coins += 1;  // одна монета за тап
+      updateUI();
+      // Простая анимация +1 (можно добавить)
+    });
+
+    // Магазин
+    function renderShop() {
+      const container = document.getElementById('shopItems');
+      container.innerHTML = shopItems.map(item => {
+        const owned = inventory.includes(item.id);
+        return `
+          <div class="shop-item">
+            <span>${item.name} – ${item.cost} 🪙</span>
+            <button onclick="buyItem(${item.id})" ${coins < item.cost || owned ? 'disabled' : ''}>
+              ${owned ? 'Куплено' : 'Купить'}
+            </button>
+          </div>`;
+      }).join('');
+
+      const selectedItem = shopItems.find(i => inventory.includes(i.id));
+      const orderBtn = document.getElementById('orderBtn');
+      if (selectedItem) {
+        orderBtn.disabled = false;
+        orderBtn.textContent = `Заказать: ${selectedItem.name}`;
+      } else {
+        orderBtn.disabled = true;
+        orderBtn.textContent = 'Купите товар для заказа';
+      }
+    }
+
+    function buyItem(id) {
+      const item = shopItems.find(i => i.id === id);
+      if (!item || coins < item.cost || inventory.includes(id)) return;
+      coins -= item.cost;
+      inventory.push(id);
+      updateUI();
+    }
+
+    // Заказ товара – отправка данных боту
+    document.getElementById('orderBtn').addEventListener('click', () => {
+      const item = shopItems.find(i => inventory.includes(i.id));
+      if (!item) return;
+      // Отправляем JSON боту, внутри initData для проверки
+      tg.sendData(JSON.stringify({
+        action: 'order',
+        item_id: item.id,
+        item_name: item.name,
+        coins_spent: item.cost
+      }));
+    });
+
+    // Навигация между экранами
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    // Первоначальная загрузка
+    updateUI();
+  </script>
+</body>
+</html>
