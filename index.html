@@ -81,7 +81,7 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
-    tg.expand(); // разворачиваем на весь экран
+    tg.expand();
 
     // Состояние (в реальном проекте – на сервере)
     let coins = parseInt(localStorage.getItem('coins') || '0');
@@ -91,7 +91,7 @@
       { id: 2, name: '🎁 Мерч Хомяк', cost: 500, description: 'Футболка с хомяком' }
     ];
 
-    // Обновление UI
+    // Обновление интерфейса
     function updateUI() {
       document.getElementById('balance').textContent = coins;
       renderShop();
@@ -105,12 +105,11 @@
 
     // Кликер
     document.getElementById('hamsterBtn').addEventListener('click', () => {
-      coins += 1;  // одна монета за тап
+      coins += 1;
       updateUI();
-      // Простая анимация +1 (можно добавить)
     });
 
-    // Магазин
+    // Магазин: отрисовка товаров
     function renderShop() {
       const container = document.getElementById('shopItems');
       container.innerHTML = shopItems.map(item => {
@@ -143,26 +142,33 @@
       updateUI();
     }
 
-    // Заказ товара – отправка данных боту
+    // ====== ОТПРАВКА ЗАКАЗА С ПРОВЕРКОЙ ПОДПИСИ ======
     document.getElementById('orderBtn').addEventListener('click', () => {
       const item = shopItems.find(i => inventory.includes(i.id));
       if (!item) return;
-      // Отправляем JSON боту, внутри initData для проверки
+
+      // Передаём initData и данные заказа вместе
       tg.sendData(JSON.stringify({
-        action: 'order',
-        item_id: item.id,
-        item_name: item.name,
-        coins_spent: item.cost
+        initData: tg.initData,          // ← подпись Telegram
+        data: {
+          action: 'order',
+          item_id: item.id,
+          item_name: item.name,
+          coins_spent: item.cost
+        }
       }));
+
+      // Опционально: показать сообщение пользователю
+      document.getElementById('orderMessage').textContent = 'Заказ отправлен!';
     });
 
-    // Навигация между экранами
+    // Навигация
     function showScreen(screenId) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById(screenId).classList.add('active');
     }
 
-    // Первоначальная загрузка
+    // Первоначальный рендер
     updateUI();
   </script>
 </body>
