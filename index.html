@@ -5,62 +5,164 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Hamster Tap</title>
   <style>
-    body {
-      background: #1a1a2e;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-    .screen { padding: 20px; display: none; }
-    .screen.active { display: block; }
-    .coin { font-size: 2em; margin: 15px 0; }
-    .hamster {
-      width: 200px; height: 200px;
-      background: url('https://i.ibb.co/0jqTpTm/hamster.png') center/contain no-repeat;
-      margin: 0 auto;
-      cursor: pointer;
+
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 10px;
+      text-align: center;
+      user-select: none;
+    }
+
+    #app {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 30px 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+    }
+    .screen.active {
+      display: block;
+    }
+
+    .coin {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 10px 0 20px;
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .coin span {
+      font-size: 2.8rem;
+      background: none;
+      -webkit-text-fill-color: #fff;
+    }
+
+    .tapper {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 20px;
       border-radius: 50%;
-      transition: transform 0.05s;
+      background: url('bot.jpg') center/cover no-repeat;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.2), 0 0 20px rgba(255,215,0,0.5);
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      position: relative;
     }
-    .hamster:active { transform: scale(0.9); }
+    .tapper:active {
+      transform: scale(0.9);
+      box-shadow: 0 0 0 6px rgba(255,215,0,0.8), 0 0 30px gold;
+    }
+
     .shop-item {
-      background: #16213e;
-      margin: 10px auto;
-      padding: 15px;
-      border-radius: 12px;
-      max-width: 300px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(5px);
+      margin: 12px 0;
+      padding: 15px 20px;
+      border-radius: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-weight: 500;
+      transition: background 0.2s;
     }
+    .shop-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
     button {
-      background: #e94560;
+      background: linear-gradient(135deg, #e94560, #c23152);
       border: none;
       color: white;
-      padding: 10px 20px;
-      border-radius: 20px;
+      padding: 12px 25px;
+      border-radius: 30px;
       font-weight: bold;
+      font-size: 1rem;
       cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
     }
-    button:disabled { background: gray; }
+    button:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 10px rgba(233, 69, 96, 0.6);
+    }
+    button:disabled {
+      background: #555;
+      box-shadow: none;
+      color: #aaa;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #orderBtn {
+      margin-top: 20px;
+      width: 100%;
+    }
+
     nav {
       display: flex;
+      gap: 15px;
+      margin-top: 25px;
       justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
     }
-    nav button { background: #533483; }
+    nav button {
+      background: rgba(255,255,255,0.1);
+      box-shadow: none;
+      font-size: 1.1rem;
+      padding: 12px 20px;
+    }
+    nav button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    #orderMessage {
+      margin-top: 10px;
+      color: #f6d365;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   </style>
 </head>
 <body>
   <div id="app">
     <!-- Экран кликера -->
     <div id="clicker" class="screen active">
-      <div class="coin">🪙 <span id="balance">0</span></div>
-      <div class="hamster" id="hamsterBtn"></div>
-      <p>Тапай хомяка!</p>
+      <div class="coin">💰 <span id="balance">0</span></div>
+      <div class="tapper" id="tapperBtn"></div>
+      <p>Тапай на фото!</p>
     </div>
 
     <!-- Экран магазина -->
@@ -83,7 +185,6 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // Состояние (в реальном проекте – на сервере)
     let coins = parseInt(localStorage.getItem('coins') || '0');
     let inventory = JSON.parse(localStorage.getItem('inventory') || '[]');
     const shopItems = [
@@ -91,7 +192,6 @@
       { id: 2, name: '🎁 Мерч Хомяк', cost: 500, description: 'Футболка с хомяком' }
     ];
 
-    // Обновление интерфейса
     function updateUI() {
       document.getElementById('balance').textContent = coins;
       renderShop();
@@ -103,20 +203,18 @@
       localStorage.setItem('inventory', JSON.stringify(inventory));
     }
 
-    // Кликер
-    document.getElementById('hamsterBtn').addEventListener('click', () => {
+    document.getElementById('tapperBtn').addEventListener('click', () => {
       coins += 1;
       updateUI();
     });
 
-    // Магазин: отрисовка товаров
     function renderShop() {
       const container = document.getElementById('shopItems');
       container.innerHTML = shopItems.map(item => {
         const owned = inventory.includes(item.id);
         return `
           <div class="shop-item">
-            <span>${item.name} – ${item.cost} 🪙</span>
+            <span>${item.name} – ${item.cost} 💰</span>
             <button onclick="buyItem(${item.id})" ${coins < item.cost || owned ? 'disabled' : ''}>
               ${owned ? 'Куплено' : 'Купить'}
             </button>
@@ -142,14 +240,12 @@
       updateUI();
     }
 
-    // ====== ОТПРАВКА ЗАКАЗА С ПРОВЕРКОЙ ПОДПИСИ ======
     document.getElementById('orderBtn').addEventListener('click', () => {
       const item = shopItems.find(i => inventory.includes(i.id));
       if (!item) return;
 
-      // Передаём initData и данные заказа вместе
       tg.sendData(JSON.stringify({
-        initData: tg.initData,          // ← подпись Telegram
+        initData: tg.initData,
         data: {
           action: 'order',
           item_id: item.id,
@@ -158,17 +254,14 @@
         }
       }));
 
-      // Опционально: показать сообщение пользователю
       document.getElementById('orderMessage').textContent = 'Заказ отправлен!';
     });
 
-    // Навигация
     function showScreen(screenId) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById(screenId).classList.add('active');
     }
 
-    // Первоначальный рендер
     updateUI();
   </script>
 </body>
